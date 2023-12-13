@@ -60,7 +60,8 @@ def fetch_news(url):
             text.append(headline_text)
     for i in range(len(text)):
         final_text = final_text + text[i] + '\n'
-    
+    st.write(final_text)
+  
     return final_text
     
 def show_keys(key):

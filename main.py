@@ -5,6 +5,7 @@ from googletrans import Translator, LANGUAGES
 import re
 import string
 import ast
+import csv
 
 url = st.text_input('Enter url')
 
@@ -41,6 +42,7 @@ def dictionaries(string):
     return key
 
 
+
 def fetch_news(url):
     response = requests.get(url)
 
@@ -60,50 +62,67 @@ def fetch_news(url):
             text.append(headline_text)
     for i in range(len(text)):
         final_text = final_text + text[i] + '\n'
-    st.write(final_text)
-  
+    
+            
     return final_text
     
 def show_keys(key):
-    string = 'keywords/keywords_' + str(key) + '.txt'
+    string = 'keywords/keywords_' + str(key) + '.csv'
 
-    with open(string) as f: 
-        data = f.read()
+    data = []
+
+    with open(string, 'r') as file:
+        reader = csv.reader(file)
+    # Читання кожного рядка з CSV-файлу
+        for row in reader:
+            data=",".join(row)  # Виведення тексту з рядка
+
+    data = data.split(',')
 
     return data
 
 def show_dict_positive(key):
-    string = 'dictionaries/positive/dict_' + str(key) + '.txt'
+    string = 'dictionaries/positive/dict_' + str(key) + '.csv'
 
-    with open(string) as f: 
-        data = f.read()
+    with open(string, 'r') as file:
+        reader = csv.reader(file)
+    # Читання кожного рядка з CSV-файлу
+        for row in reader:
+            data=",".join(row)  # Виведення тексту з рядка
+
+    data = data.split(',')
 
     return data
 
 def show_dict_negative(key):
-    string = 'dictionaries/negative/dict_' + str(key) + '.txt'
+    string = 'dictionaries/negative/dict_' + str(key) + '.csv'
 
-    with open(string) as f: 
-        data = f.read()
+    with open(string, 'r') as file:
+        reader = csv.reader(file)
+    # Читання кожного рядка з CSV-файлу
+        for row in reader:
+            data=",".join(row)  # Виведення тексту з рядка
+
+    data = data.split(',')
 
     return data
 
 def save_dict(key, text, type):
     if type == "Positive":
-        string = 'dictionaries/positive/dict_' + str(key) + '.txt'
+        string = 'dictionaries/positive/dict_' + str(key) + '.csv'
     else:
-        string = 'dictionaries/negative/dict_' + str(key) + '.txt'
+        string = 'dictionaries/negative/dict_' + str(key) + '.csv'
 
-    with open(string,'w') as data:  
-      data.write(str(text))
+    with open(string, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        
+        writer.writerows([text])
 
 def update_dict(key, string, type):
     if type == "Positive":
         data = show_dict_positive(key)
     else:
         data = show_dict_negative(key)
-    
-    data = ast.literal_eval(data)
 
     data.append(string)
 
@@ -116,8 +135,6 @@ def remove_dict(key, string, type):
         data = show_dict_positive(key)
     else:
         data = show_dict_negative(key)
-    
-    data = ast.literal_eval(data)
 
     data.remove(string)
 
@@ -128,8 +145,6 @@ def remove_dict(key, string, type):
 def update_key(key, string):
     data = show_keys(key)
 
-    data = ast.literal_eval(data)
-
     data.append(string)
 
     save_keys(key, data)
@@ -139,8 +154,6 @@ def update_key(key, string):
 def remove_key(key, string):
     data = show_keys(key)
 
-    data = ast.literal_eval(data)
-
     data.remove(string)
 
     save_keys(key, data)
@@ -148,10 +161,12 @@ def remove_key(key, string):
     st.sidebar.write(data)
 
 def save_keys(key, text):
-    string = 'keywords/keywords_' + str(key) + '.txt'
+    string = 'keywords/keywords_' + str(key) + '.csv'
 
-    with open(string,'w') as data:  
-      data.write(str(text))
+    with open(string, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        
+        writer.writerows([text])
 
 def check_dict(text):
     dict = ['Військово-політичне керівництво України всіх рівнів','Правоохоронні органи України','Збройні сили України',
@@ -164,7 +179,6 @@ def check_dict(text):
     result = []
     for i in range(13):
         keys = show_keys(i + 1)
-        keys = ast.literal_eval(keys)
         text = str.lower(text)
 
         for i in range(len(keys)):
@@ -188,9 +202,6 @@ def ton_check(text, main_key):
     
     positive = show_dict_positive(key)
     negative = show_dict_negative(key)
-    
-    positive = ast.literal_eval(positive)
-    negative = ast.literal_eval(negative)
     
     for i in range(len(positive)):
         positive[i] = str.lower(positive[i])

@@ -290,8 +290,6 @@ if rem:
 
 if but:
     text = fetch_news(url)
-
-    text = translate(text)
     
     main_key = check_dict(text)
 

@@ -71,7 +71,7 @@ def show_keys(key):
 
     data = []
 
-    with open(string, 'r') as file:
+    with open(string, 'r', encoding='utf-8') as file:
         reader = csv.reader(file)
     # Читання кожного рядка з CSV-файлу
         for row in reader:
@@ -84,7 +84,7 @@ def show_keys(key):
 def show_dict_positive(key):
     string = 'dictionaries/positive/dict_' + str(key) + '.csv'
 
-    with open(string, 'r') as file:
+    with open(string, 'r', encoding='utf-8') as file:
         reader = csv.reader(file)
     # Читання кожного рядка з CSV-файлу
         for row in reader:
@@ -97,7 +97,7 @@ def show_dict_positive(key):
 def show_dict_negative(key):
     string = 'dictionaries/negative/dict_' + str(key) + '.csv'
 
-    with open(string, 'r') as file:
+    with open(string, 'r', encoding='utf-8') as file:
         reader = csv.reader(file)
     # Читання кожного рядка з CSV-файлу
         for row in reader:
@@ -113,7 +113,7 @@ def save_dict(key, text, type):
     else:
         string = 'dictionaries/negative/dict_' + str(key) + '.csv'
 
-    with open(string, mode='w', newline='') as file:
+    with open(string, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         
         writer.writerows([text])
@@ -163,10 +163,11 @@ def remove_key(key, string):
 def save_keys(key, text):
     string = 'keywords/keywords_' + str(key) + '.csv'
 
-    with open(string, mode='w', newline='') as file:
+    with open(string, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         
         writer.writerows([text])
+
 
 def check_dict(text):
     dict = ['Військово-політичне керівництво України всіх рівнів','Правоохоронні органи України','Збройні сили України',

@@ -192,7 +192,7 @@ def check_dict(text):
                 nums += 1
         
         result.append(nums)
-    
+    st.subheader(nums)
     max_ind = result.index(max(result))
     return dict[max_ind]
 

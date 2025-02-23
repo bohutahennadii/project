@@ -1,6 +1,5 @@
 bs4
 requests
 deep_translator
-csv
 langdetect
 youtube_transcript_api

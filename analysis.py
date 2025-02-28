@@ -220,8 +220,11 @@ def split_text(text, max_length=5000):
 def translate(text):
     detected_lang = detect(text)
 
+    lang = 0
+
     if detected_lang == 'uk':
-        return text
+        lang = 1
+        return text, lang
 
     translator = GoogleTranslator(source='auto', target='uk')
 
@@ -229,4 +232,4 @@ def translate(text):
 
     translated_parts = [translator.translate(part) for part in text_parts]
 
-    return " ".join(translated_parts)
+    return " ".join(translated_parts), lang

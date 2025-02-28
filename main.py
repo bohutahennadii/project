@@ -86,7 +86,7 @@ with normal_text:
     but = st.button('Apply normal')
 
     if but:
-        text = translate(text)
+        text1, lang = translate(text)
     
         main_key = check_dict(text)
 
@@ -101,9 +101,18 @@ with normal_text:
         else:
             st.title(f"Тональність: {emotion}% (негативна)")
 
-        st.text("Текст:")
+        if lang:
+            st.text("Текст статті:")
+            
+            st.text(text1)
+        else:
+            st.text("Оригінальний текст статті:")
 
-        st.text(text)
+            st.text(text)
+            
+            st.text("Перекладений текст:")
+
+            st.text(text1)
 
 
 with site:
@@ -116,11 +125,11 @@ with site:
     if but:
         text = fetch_news(url)
 
-        text = translate(text)
+        text1, lang = translate(text)
     
-        main_key = check_dict(text)
+        main_key = check_dict(text1)
 
-        emotion = ton_check(text, main_key, check1)
+        emotion = ton_check(text1, main_key, check1)
 
         st.subheader(f"Рубрика: {main_key}")
 
@@ -131,9 +140,18 @@ with site:
         else:
             st.title(f"Тональність: {emotion}% (негативна)")
 
-        st.text("Текст статті:")
+        if lang:
+            st.text("Текст статті:")
+            
+            st.text(text1)
+        else:
+            st.text("Оригінальний текст статті:")
 
-        st.text(text)
+            st.text(text)
+            
+            st.text("Перекладений текст:")
+
+            st.text(text1)
 
 with video:
     url = st.text_input('Enter video url')
@@ -157,7 +175,7 @@ with video:
             except Exception as e:
                 st.text(f"Не вдалося отримати субтитри: {e}")
 
-        full_text = translate(full_text)
+        full_text1, lang = translate(full_text)
         
         main_key = check_dict(full_text)
 
@@ -172,6 +190,15 @@ with video:
         else:
             st.title(f"Тональність: {emotion}% (негативна)")
 
-        st.text("Текст відео:")
+        if lang:
+            st.text("Текст статті:")
+            
+            st.text(full_text1)
+        else:
+            st.text("Оригінальний текст статті:")
 
-        st.text(full_text)
+            st.text(full_text)
+            
+            st.text("Перекладений текст:")
+
+            st.text(full_text1)

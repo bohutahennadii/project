@@ -165,7 +165,7 @@ with video:
 
         video_id = parse_qs(parsed_url.query).get("v", [None])[0]
 
-        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id, proxies={"https": "http://localhost:8080"})
+        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
 
         for transcript in transcript_list:
             try:

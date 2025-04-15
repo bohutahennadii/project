@@ -121,7 +121,27 @@ with normal_text:
         emotion = ton_check(text1, main_key, check)
 
         article = check_articles(text1)
+        
+        st.markdown(
+            f"""
+            <style>
+            .floating-article {{
+                position: fixed;
+                top: 350px; /* Висота, де ти хочеш показати */
+                right: 120px; /* Відступ від правого краю */
+                padding: 6px 12px;
+                border-radius: 8px;
+                z-index: 9999;
+                width: 250px;
+            }}
+            </style>
 
+            <div class="floating-article">
+                Назва статті закону чи кодексу: {article}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         st.subheader(f"Рубрика: {main_key}")
 
         if emotion > 0:
@@ -130,8 +150,6 @@ with normal_text:
             st.title(f"Тональність: {emotion}% (нейтральна)")
         else:
             st.title(f"Тональність: {emotion}% (негативна)")
-
-        st.subheader(f"Назва статті закону чи кодексу: {article}")
 
         if lang:
             st.text("Текст статті:")

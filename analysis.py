@@ -242,7 +242,7 @@ def check_articles(text):
         
         result.append(nums)
 
-    if max(result) >= 5:
+    if max(result) >= 3:
         max_ind = result.index(max(result))
     else:
         return 'Не зайдено'

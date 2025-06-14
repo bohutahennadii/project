@@ -202,7 +202,7 @@ def ton_check(text, main_key, check):
         result = -100
     
     if check:
-        result *= -1
+        result = 100 - result
 
     return result
 

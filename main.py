@@ -1,5 +1,4 @@
 import streamlit as st
-from youtube_transcript_api import YouTubeTranscriptApi
 from urllib.parse import urlparse, parse_qs
 
 from analysis import (
@@ -17,7 +16,7 @@ from analysis import (
     fetch_news
 )
 
-normal_text, site, video = st.tabs(["Normal text", "Site", "Video"])
+normal_text, site = st.tabs(["Normal text", "Site"])
 
 dict = st.sidebar.selectbox('Select', ['Військово-політичне керівництво України всіх рівнів','Правоохоронні органи України','Збройні сили України',
                                        'Соціально-політична ситуація в регіонах України (відношення до мобілізації, соціально-економічна стабільність тощо)','Проросійські релігійні організації на території України',
@@ -152,53 +151,3 @@ with site:
             st.text("Перекладений текст:")
 
             st.text(text1)
-
-with video:
-    url = st.text_input('Enter video url')
-
-    check2 = st.checkbox('Video inversion')
-    
-    but = st.button('Video apply')
-
-    if but:
-        parsed_url = urlparse(url)
-
-        video_id = parse_qs(parsed_url.query).get("v", [None])[0]
-
-        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-
-        for transcript in transcript_list:
-            try:
-                subtitles = transcript.fetch()
-                full_text = "\n".join([t["text"] for t in subtitles])
-                break
-            except Exception as e:
-                st.text(f"Не вдалося отримати субтитри: {e}")
-
-        full_text1, lang = translate(full_text)
-        
-        main_key = check_dict(full_text)
-
-        emotion = ton_check(full_text, main_key, check2)
-
-        st.subheader(f"Рубрика: {main_key}")
-
-        if emotion > 0:
-            st.title(f"Тональність: +{emotion}% (позитивна)")
-        elif emotion == 0:
-            st.title(f"Тональність: {emotion}% (нейтральна)")
-        else:
-            st.title(f"Тональність: {emotion}% (негативна)")
-
-        if lang:
-            st.text("Текст статті:")
-            
-            st.text(full_text1)
-        else:
-            st.text("Оригінальний текст статті:")
-
-            st.text(full_text)
-            
-            st.text("Перекладений текст:")
-
-            st.text(full_text1)

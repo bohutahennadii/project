@@ -203,7 +203,7 @@ def ton_check(text, main_key, check):
     
     if check:
         if result > 0:
-            result = 100 - result
+            result = -100 + result
         elif result < 0:
             result = 100 + result
 
